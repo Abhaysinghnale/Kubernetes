@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata: 
+  name: demo-job
+  namespace: nginx
+spec:
+  completions: 1
+  parallelism: 1
+  template: 
+    metadata:       # १. template च्या आत योग्य २ स्पेस देऊन 
+      name: demo-job-pod
+      labels:
+        app: batch-task
+    spec:           # २. हा spec पॉडचा आहे, तो template च्या रेषेत हवा
+      containers:
+        - name: batch-container
+          image: busybox:latest
+          command: ["sh", "-c", "echo hello dosto && sleep 10"]
+      restartPolicy: Never # ३. योग्य स्पेलिंग आणि 'Never' चा N कॅपिटल    
+  
