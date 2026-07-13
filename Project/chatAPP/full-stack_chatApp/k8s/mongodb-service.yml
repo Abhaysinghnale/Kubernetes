@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb    # <--- Check note below regarding this name!
+  namespace: chat-app
+spec:
+  ports:
+    - port: 27017      # The standard port MongoDB runs on
+      targetPort: 27017
+  selector:
+    app: mongodb       # Routes traffic to pods labeled "app: mongodb"

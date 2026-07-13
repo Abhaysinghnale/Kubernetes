@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: chatapp-ingress
+  namespace: chat-app
+  labels:
+    name: chatapp-ingress
+  annotations:
+    # Removed global rewrite-target to preserve /api and /socket.io paths cleanly
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    
+    # Enable WebSockets support for Socket.io real-time chat sync
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+spec:
+  ingressClassName: nginx # Ensures the ingress-nginx controller handles this resource
+  rules:
+  - host: chat-tws.com
+    http:
+      paths:
+      # 1. Route Frontend Assets
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: frontend-service  # FIXED: Matches your actual service name
+            port:
+              number: 80
+
+      # 2. Route API Backend Calls
+      - pathType: Prefix
+        path: "/api"
+        backend:
+          service:
+            name: backend           # Matches your backend service name
+            port:
+              number: 5001         
+
+      # 3. Route Real-time Socket.io Traffics
+      - pathType: Prefix
+        path: "/socket.io"
+        backend:
+          service:
+            name: backend           # Socket.io connections must land on backend container
+            port:
+              number: 5001

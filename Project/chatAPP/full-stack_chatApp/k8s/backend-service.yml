@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend        # <--- Nginx is looking for this exact name
+  namespace: chat-app
+spec:
+  ports:
+    - port: 5001         
+      targetPort: 5001 # Routes to your backend container port
+  selector:
+    app: backend       # Targets pods with the label "app: backend"
