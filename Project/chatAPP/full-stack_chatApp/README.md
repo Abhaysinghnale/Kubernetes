@@ -214,10 +214,3 @@ This project is evolving, and here are a few exciting things on the horizon:
 ![logout](/frontend/public/logout.png)
 
 ![Login](/frontend/public/login.png)
-
-
-
-## 📜 License
-
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
